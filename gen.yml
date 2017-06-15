@@ -1,0 +1,4 @@
+---
+language: ruby
+sourcePath: lib/paypal-sdk
+testPath: spec/integration
