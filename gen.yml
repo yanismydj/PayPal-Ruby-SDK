@@ -1,4 +1,6 @@
 ---
-language: ruby
+language: rb
 sourcePath: lib/paypal-sdk
 testPath: spec/integration
+extras:
+  packageName: PayPalRequest

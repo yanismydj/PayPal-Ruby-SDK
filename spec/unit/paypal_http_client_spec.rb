@@ -249,6 +249,5 @@ describe PayPalCore::PayPalHttpClient do
       expect(deserializedBody).to eq(request_body_json)
     end
   end
-  
+ 
 end
-
