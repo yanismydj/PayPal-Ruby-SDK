@@ -15,7 +15,7 @@ module PayPalCore
     end
     
     def deserializeResponse(body, headers)
-      if headers["content-type"].include? "application/json"
+      if headers["content-type"] && (headers["content-type"].include? "application/json")
         return OpenStruct.new(JSON.parse(body))
       end
 
@@ -26,7 +26,7 @@ module PayPalCore
       contentType = request["Content-Type"]
 
       if (contentType == "application/json") 
-        return JSON.encode(request.body);
+        return JSON.generate(request.body);
       end
       
       request.body

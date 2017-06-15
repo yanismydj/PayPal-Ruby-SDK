@@ -8,15 +8,8 @@ describe PayPalCore::PayPalHttpClient do
     @environment = PayPalCore::SandboxEnvironment.new('clientId', 'clientSecret')
     @httpClient = PayPalCore::PayPalHttpClient.new(@environment)
   end
-
-  # it "uses injectors to modify request" do
-  #   req = Net::HTTP::Get.new("/v1/notifications/webhooks-event-types?")
-  #   req['Content-Type'] = 'application/json'
-  #
-  #   resp = @httpClient.execute(req)
-  #   puts resp.result.event_types.inspect
-  # end
   
+  # Helpers
   def stubAccessToken
     access_token_json = JSON.generate({
       :access_token => "simple-access-token",
@@ -224,21 +217,36 @@ describe PayPalCore::PayPalHttpClient do
 
   describe 'serializeRequest' do
     it 'does not modify body when Content-Type header not set' do
-      #@httpClient
+      req = Net::HTTP::Post.new("/")
+      req.body = "my - [ string ..;"
+      serializedBody = @httpClient.serializeRequest(req)
+      expect(serializedBody).to eq("my - [ string ..;")
     end
     
     it 'serializes request body when present and Content-Type set to application/json' do
-      
+      request_body_json = {
+        :some_key => "some_value"
+      }
+      req = Net::HTTP::Post.new("/")
+      req.body = request_body_json
+      req["Content-Type"] = "application/json"
+      serializedBody = @httpClient.serializeRequest(req)
+      expect(serializedBody).to eq("{\"some_key\":\"some_value\"}")
     end
   end
 
   describe 'deserializeResponse' do
     it 'does not modify body when Content-Type header not set' do
-
+      deserializedBody = @httpClient.deserializeResponse("my - [ string ..;", {})
+      expect(deserializedBody).to eq("my - [ string ..;")
     end
     
     it 'deserializes request body when present and Content-Type set to application/json' do
-      
+      request_body_json = OpenStruct.new({
+        :some_key => "some_value"
+      })
+      deserializedBody = @httpClient.deserializeResponse("{\"some_key\":\"some_value\"}", {"content-type" => "application/json"})
+      expect(deserializedBody).to eq(request_body_json)
     end
   end
   

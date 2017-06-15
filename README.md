@@ -1,7 +1,6 @@
-# BraintreeHttp - Ruby
+# PayPal Ruby SDK
 
-BraintreeHttp is a thin http client designed to be used with code-generated projects.
-It provides functionality to make basic Http requests to endpoints that support JSON.
+New PayPal Ruby SDK
 
 ## Development
 
@@ -11,5 +10,10 @@ It provides functionality to make basic Http requests to endpoints that support 
 
 ```sh
 $ bundle install
+```
+
+### Tests
+```sh
+$ rspec
 ```
 
