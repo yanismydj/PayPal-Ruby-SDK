@@ -20,18 +20,24 @@ module PayPalCore
       encoded = Base64.strict_encode64("#{@client_id}:#{@client_secret}")
       return "Basic #{encoded}"
     end
+    
   end
   
   class SandboxEnvironment < PayPalCore::PayPalEnvironment
+    
     def initialize(client_id, client_secret)
       super(client_id, client_secret, PayPalCore::SANDBOX)
     end
+    
   end
   
   class LiveEnvironment < PayPalCore::PayPalEnvironment
+    
     def initialize(client_id, client_secret)
       super(client_id, client_secret, PayPalCore::LIVE)
     end
+    
   end
+  
 end
 

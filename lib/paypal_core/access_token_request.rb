@@ -1,6 +1,7 @@
 require 'net/http'
 
 module PayPalCore
+  
   class PayPalAccessTokenRequest < Net::HTTPGenericRequest
         
     def initialize(environment, refreshToken=nil)
@@ -19,5 +20,6 @@ module PayPalCore
     end
     
   end
+  
 end
 
