@@ -1,22 +1,21 @@
-require 'net/http'
-
 module PayPalCore
   
-  class PayPalAccessTokenRequest < Net::HTTPGenericRequest
-        
+  class PayPalAccessTokenRequest
+    
+    attr_accessor :path, :body, :headers, :verb
+    
     def initialize(environment, refreshToken=nil)
-      path = "/v1/oauth2/token"
-      body = "grant_type=client_credentials"
+      @path = "/v1/oauth2/token"
+      @body = "grant_type=client_credentials"
 
       if (refreshToken)
-        path = "/v1/identity/openidconnect/tokenservice"
-        body += "refresh_token=#{refreshToken}"
+        @path = "/v1/identity/openidconnect/tokenservice"
+        @body += "refresh_token=#{refreshToken}"
       end
 
-      initheader = {"Content-Type" => "application/x-www-form-urlencoded", 
+      @headers = {"Content-Type" => "application/x-www-form-urlencoded", 
                     "Authorization" => environment.authorizationString()}
-      super "POST", true, true, path, initheader
-      @body = body
+      @verb = "POST"
     end
     
   end

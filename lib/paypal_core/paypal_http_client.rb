@@ -23,7 +23,7 @@ module PayPalCore
     end
     
     def serializeRequest(request)
-      contentType = request["Content-Type"]
+      contentType = request.headers["Content-Type"] unless request.headers.nil?
 
       if (contentType == "application/json") 
         return JSON.generate(request.body);
@@ -37,7 +37,7 @@ module PayPalCore
   class PayPalHeadersInjector < BraintreeHttp::Injector
     
     def inject(request)
-      request["Accept-Encoding"] = "gzip"
+      request.headers["Accept-Encoding"] = "gzip"
     end
     
   end
@@ -60,7 +60,7 @@ module PayPalCore
         tokenResponse = @http_client.execute(accessTokenRequest)
         @access_token = PayPalCore::PayPalAccessToken.new(tokenResponse.result)
       end
-      request["Authorization"] = @access_token.authorizationString()
+      request.headers["Authorization"] = @access_token.authorizationString()
     end
     
   end

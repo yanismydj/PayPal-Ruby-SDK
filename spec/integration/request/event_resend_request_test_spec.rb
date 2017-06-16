@@ -1,4 +1,4 @@
-# This class was generated on Fri, 16 Jun 2017 10:45:02 PDT by version 0.01 of Braintree SDK Generator
+# This class was generated on Fri, 16 Jun 2017 12:26:48 PDT by version 0.01 of Braintree SDK Generator
 # event_resend_request_test_spec.rb
 # DO NOT EDIT
 # @type request-test

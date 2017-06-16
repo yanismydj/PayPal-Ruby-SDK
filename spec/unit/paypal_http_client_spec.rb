@@ -44,8 +44,8 @@ describe PayPalCore::PayPalHttpClient do
         to_return(body: return_json, status: 204,
                   headers: { 'content-type' => "application/json" })
 
-      req = Net::HTTP::Get.new("/")
-
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
+      
       resp = @httpClient.execute(req)
 
       expect(resp.status_code).to eq("204")
@@ -65,7 +65,7 @@ describe PayPalCore::PayPalHttpClient do
         to_return(body: return_json, status: 204,
                   headers: { 'content-type' => "application/json" })
 
-      req = Net::HTTP::Get.new("/")
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
 
       resp = @httpClient.execute(req)
 
@@ -109,8 +109,8 @@ describe PayPalCore::PayPalHttpClient do
         to_return(body: return_json, status: 204,
                   headers: { 'content-type' => "application/json" })
 
-      req = Net::HTTP::Get.new("/")
-
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
+      
       resp = @httpClient.execute(req)
 
       expect(resp.status_code).to eq("204")
@@ -135,8 +135,8 @@ describe PayPalCore::PayPalHttpClient do
         to_return(body: return_json, status: 204,
                   headers: { 'content-type' => "application/json" })
 
-      req = Net::HTTP::Get.new("/")
-
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
+      
       resp = @httpClient.execute(req)
 
       expect(resp.status_code).to eq("204")
@@ -176,8 +176,8 @@ describe PayPalCore::PayPalHttpClient do
         to_return(body: return_json, status: 204,
                   headers: { 'content-type' => "application/json" })
 
-      req = Net::HTTP::Get.new("/")
-
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
+      
       resp = @httpClient.execute(req)
 
       expect(resp.status_code).to eq("204")
@@ -201,8 +201,8 @@ describe PayPalCore::PayPalHttpClient do
         to_return(body: return_json, status: 204,
                   headers: { 'content-type' => "application/json" })
 
-      req = Net::HTTP::Get.new("/")
-
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
+      
       resp = @httpClient.execute(req)
 
       expect(resp.status_code).to eq("204")
@@ -214,7 +214,7 @@ describe PayPalCore::PayPalHttpClient do
 
   describe 'serializeRequest' do
     it 'does not modify body when Content-Type header not set' do
-      req = Net::HTTP::Post.new("/")
+      req = OpenStruct.new({:verb => "POST", :path => "/"})      
       req.body = "my - [ string ..;"
       serializedBody = @httpClient.serializeRequest(req)
       expect(serializedBody).to eq("my - [ string ..;")
@@ -224,9 +224,8 @@ describe PayPalCore::PayPalHttpClient do
       request_body_json = {
         :some_key => "some_value"
       }
-      req = Net::HTTP::Post.new("/")
+      req = OpenStruct.new({:verb => "POST", :path => "/", :headers => {"Content-Type" => "application/json"}})      
       req.body = request_body_json
-      req["Content-Type"] = "application/json"
       serializedBody = @httpClient.serializeRequest(req)
       expect(serializedBody).to eq("{\"some_key\":\"some_value\"}")
     end
@@ -246,5 +245,5 @@ describe PayPalCore::PayPalHttpClient do
       expect(deserializedBody).to eq(request_body_json)
     end
   end
- 
+  
 end
