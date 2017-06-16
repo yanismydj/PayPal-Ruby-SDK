@@ -1,8 +1,5 @@
-require 'net/http'
-require 'ostruct'
-
 describe PayPalCore::PayPalHttpClient do
-
+  
   before do
     WebMock.disable!
     @environment = PayPalCore::SandboxEnvironment.new('clientId', 'clientSecret')

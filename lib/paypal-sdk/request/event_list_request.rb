@@ -1,4 +1,4 @@
-# This class was generated on Thu, 15 Jun 2017 16:02:42 PDT by version 0.01 of Braintree SDK Generator
+# This class was generated on Fri, 16 Jun 2017 10:45:02 PDT by version 0.01 of Braintree SDK Generator
 # event_list_request.rb
 # DO NOT EDIT
 # @type request
