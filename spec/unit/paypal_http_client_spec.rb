@@ -229,6 +229,16 @@ describe PayPalCore::PayPalHttpClient do
       serializedBody = @httpClient.serializeRequest(req)
       expect(serializedBody).to eq("{\"some_key\":\"some_value\"}")
     end
+    
+    it 'serializes request body when present and Content-Type set to application/json is case insensitive' do
+      request_body_json = {
+        :some_key => "some_value"
+      }
+      req = OpenStruct.new({:verb => "POST", :path => "/", :headers => {"conTenT-TYPE" => "application/json"}})      
+      req.body = request_body_json
+      serializedBody = @httpClient.serializeRequest(req)
+      expect(serializedBody).to eq("{\"some_key\":\"some_value\"}")
+    end
   end
 
   describe 'deserializeResponse' do
@@ -242,6 +252,14 @@ describe PayPalCore::PayPalHttpClient do
         :some_key => "some_value"
       })
       deserializedBody = @httpClient.deserializeResponse("{\"some_key\":\"some_value\"}", {"content-type" => "application/json"})
+      expect(deserializedBody).to eq(request_body_json)
+    end
+    
+    it 'deserializes request body when present and Content-Type set to application/json is case insensitive' do
+      request_body_json = OpenStruct.new({
+        :some_key => "some_value"
+      })
+      deserializedBody = @httpClient.deserializeResponse("{\"some_key\":\"some_value\"}", {"Content-Type" => "application/json"})
       expect(deserializedBody).to eq(request_body_json)
     end
   end

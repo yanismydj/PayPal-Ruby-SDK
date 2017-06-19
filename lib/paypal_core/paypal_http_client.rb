@@ -15,20 +15,28 @@ module PayPalCore
     end
     
     def deserializeResponse(body, headers)
-      if headers["content-type"] && (headers["content-type"].include? "application/json")
-        return OpenStruct.new(JSON.parse(body))
+      unless headers.nil?
+        headers.keys.sort.each do |key|
+          if key.downcase == "content-type"
+            if headers[key].include? "application/json"
+              return OpenStruct.new(JSON.parse(body))
+            end
+          end
+        end
       end
-
       body
     end
     
     def serializeRequest(request)
-      contentType = request.headers["Content-Type"] unless request.headers.nil?
-
-      if (contentType == "application/json") 
-        return JSON.generate(request.body);
+      unless request.headers.nil?
+        request.headers.keys.sort.each do |key|
+          if key.downcase == "content-type"
+            if request.headers[key].include? "application/json"
+              return JSON.generate(request.body)
+            end
+          end
+        end
       end
-      
       request.body
     end
 
