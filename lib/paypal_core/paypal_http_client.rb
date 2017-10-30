@@ -1,4 +1,5 @@
 require "braintreehttp"
+require_relative './version'
 
 module PayPal
   class PayPalHttpClient < BraintreeHttp::HttpClient
@@ -11,6 +12,17 @@ module PayPal
 
       add_injector(&method(:_sign_request))
       add_injector(&method(:_add_headers))
+    end
+
+    def user_agent
+      library_details ||= "paypal-sdk-core #{VERSION}; ruby #{RUBY_VERSION}p#{RUBY_PATCHLEVEL}-#{RUBY_PLATFORM}"
+      begin
+        library_details << ";#{OpenSSL::OPENSSL_LIBRARY_VERSION}"
+      rescue NameError
+        library_details << ";OpenSSL #{OpenSSL::OPENSSL_VERSION}"
+      end
+
+      "PayPalSDK/rest-sdk-ruby #{VERSION} (#{library_details})"
     end
 
     def _sign_request(request)

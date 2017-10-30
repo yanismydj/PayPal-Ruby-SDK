@@ -1,3 +1,5 @@
+require_relative '../../lib/paypal_core/version'
+
 describe PayPal::PayPalHttpClient do
 
   before do
@@ -187,6 +189,25 @@ describe PayPal::PayPalHttpClient do
 
           assert_requested(access_token_stub, times: 2)
           assert_requested(response_stub, times: 2)
+    end
+
+    it 'sets User-Agent header properly' do
+      WebMock.enable!
+      access_token_stub = stubAccessToken
+
+      return_json = JSON.generate({
+        :some_key => "some_value"
+      })
+
+      request_stub = stub_request(:any, @environment.base_url).
+        to_return(body: return_json, status: 200,
+                  headers: { 'content-type' => "application/json" })
+
+        resp = @httpClient.execute(OpenStruct.new({:verb => "GET", :path => "/"}))
+
+        user_agent_regex = /^PayPalSDK\/rest-sdk-ruby #{VERSION} \(paypal-sdk-core .*; ruby [\d\.?]*p\d+-.*;OpenSSL.*\)$/
+        expect(WebMock).to have_requested(:get, @environment.base_url).
+          with(headers: {'User-Agent' => user_agent_regex})
     end
 
     it 'sets Accept-Encoding header to gzip' do
