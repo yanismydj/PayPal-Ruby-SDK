@@ -1,7 +1,7 @@
 require "braintreehttp"
 require "base64"
 
-module PayPalCore
+module PayPal
   
   SANDBOX = 'https://api.sandbox.paypal.com';
   LIVE = 'https://api.paypal.com';
@@ -23,21 +23,19 @@ module PayPalCore
     
   end
   
-  class SandboxEnvironment < PayPalCore::PayPalEnvironment
+  class SandboxEnvironment < PayPal::PayPalEnvironment
     
     def initialize(client_id, client_secret)
-      super(client_id, client_secret, PayPalCore::SANDBOX)
+      super(client_id, client_secret, PayPal::SANDBOX)
     end
     
   end
   
-  class LiveEnvironment < PayPalCore::PayPalEnvironment
+  class LiveEnvironment < PayPal::PayPalEnvironment
     
     def initialize(client_id, client_secret)
-      super(client_id, client_secret, PayPalCore::LIVE)
+      super(client_id, client_secret, PayPal::LIVE)
     end
-    
   end
-  
 end
 
