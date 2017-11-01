@@ -28,61 +28,58 @@ describe PayPal::PayPalHttpClient do
       :token_type => 'Bearer'
     })
 
-    stub_request(:any, @environment.base_url + "/v1/oauth2/token").
-      to_return(body: access_token_json, status: 200,
-                headers: { 'content-type' => "application/json" })
+    stub_request(:any, @environment.base_url + "/v1/oauth2/token")
+      .to_return(body: access_token_json, status: 200, headers: { 'content-type' => "application/json" })
   end
 
   describe 'execute' do
-    it 'fetches access token if not yet fetched' do
+    before(:each) do
       WebMock.enable!
+    end
+
+    it 'fetches access token if not yet fetched' do
       access_token_stub = stubAccessToken
 
       return_json = JSON.generate({
         :some_key => "some_value"
       })
 
-      stub_request(:get, @environment.base_url + "/path").
-        to_return(body: return_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      stub_request(:get, @environment.base_url + "/path")
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        req = OpenStruct.new({:verb => "GET", :path => "/path"})
+      req = OpenStruct.new({:verb => "GET", :path => "/path"})
 
-        resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-        expect(resp.status_code).to eq(200)
-        expect(resp.result.some_key).to eq("some_value")
-        assert_requested(access_token_stub)
+      expect(resp.status_code).to eq(200)
+      expect(resp.result.some_key).to eq("some_value")
+      assert_requested(access_token_stub)
     end
 
     it 'does not fetch access token if not expired and valid' do
-      WebMock.enable!
       access_token_stub = stubAccessToken
 
       return_json = JSON.generate({
         :some_key => "some_value"
       })
 
-      response_stub = stub_request(:any, @environment.base_url).
-        to_return(body: return_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      response_stub = stub_request(:any, @environment.base_url)
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        req = OpenStruct.new({:verb => "GET", :path => "/"})
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
 
-        resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-        expect(resp.status_code).to eq(200)
-        expect(resp.result[:some_key]).to eq("some_value")
+      expect(resp.status_code).to eq(200)
+      expect(resp.result[:some_key]).to eq("some_value")
 
-        resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-        assert_requested(access_token_stub, times: 1)
-        assert_requested(response_stub, times: 2)
+      assert_requested(access_token_stub, times: 1)
+      assert_requested(response_stub, times: 2)
     end
 
     it 'fetches access token if expired' do
-      WebMock.enable!
-
       expired_access_token_json = JSON.generate({
         :access_token => "expired-access-token",
         :expires_in => -1,
@@ -95,37 +92,33 @@ describe PayPal::PayPalHttpClient do
         :token_type => 'Bearer'
       })
 
-      access_token_stub = stub_request(:any, @environment.base_url + "/v1/oauth2/token").
-        to_return(body: expired_access_token_json, status: 200,
-                  headers: { 'content-type' => "application/json" }).
-        times(1).
-        then.
-        to_return(body: access_token_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      access_token_stub = stub_request(:any, @environment.base_url + "/v1/oauth2/token")
+        .to_return(body: expired_access_token_json, status: 200, headers: { 'content-type' => "application/json" })
+        .times(1)
+        .then
+        .to_return(body: access_token_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        return_json = JSON.generate({
-          :some_key => "some_value"
-        })
+      return_json = JSON.generate({
+        :some_key => "some_value"
+      })
 
-        response_stub = stub_request(:any, @environment.base_url).
-          to_return(body: return_json, status: 200,
-                    headers: { 'content-type' => "application/json" })
+      response_stub = stub_request(:any, @environment.base_url)
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-          req = OpenStruct.new({:verb => "GET", :path => "/"})
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
 
-          resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-          expect(resp.status_code).to eq(200)
-          expect(resp.result[:some_key]).to eq("some_value")
+      expect(resp.status_code).to eq(200)
+      expect(resp.result[:some_key]).to eq("some_value")
 
-          resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-          assert_requested(access_token_stub, times: 2)
-          assert_requested(response_stub, times: 2)
+      assert_requested(access_token_stub, times: 2)
+      assert_requested(response_stub, times: 2)
     end
 
     it 'fetches access token with refresh token not yet fetched' do
-      WebMock.enable!
       @httpClient = PayPal::PayPalHttpClient.new(@environment, "refresh-token")
       refresh_token_stub = stubRefreshToken
 
@@ -133,21 +126,19 @@ describe PayPal::PayPalHttpClient do
         :some_key => "some_value"
       })
 
-      stub_request(:any, @environment.base_url).
-        to_return(body: return_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      stub_request(:any, @environment.base_url)
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        req = OpenStruct.new({:verb => "GET", :path => "/"})
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
 
-        resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-        expect(resp.status_code).to eq(200)
-        expect(resp.result[:some_key]).to eq("some_value")
-        assert_requested(refresh_token_stub)
+      expect(resp.status_code).to eq(200)
+      expect(resp.result[:some_key]).to eq("some_value")
+      assert_requested(refresh_token_stub)
     end
 
     it 'fetches access token with refresh token if expired' do
-      WebMock.enable!
       @httpClient = PayPal::PayPalHttpClient.new(@environment, "refresh-token")
 
       expired_access_token_json = JSON.generate({
@@ -162,74 +153,89 @@ describe PayPal::PayPalHttpClient do
         :token_type => 'Bearer'
       })
 
-      access_token_stub = stub_request(:any, @environment.base_url + "/v1/oauth2/token").
-        to_return(body: expired_access_token_json, status: 200,
-                  headers: { 'content-type' => "application/json" }).
-        times(1).
-        then.
-        to_return(body: access_token_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      access_token_stub = stub_request(:any, @environment.base_url + "/v1/oauth2/token")
+        .to_return(body: expired_access_token_json, status: 200, headers: { 'content-type' => "application/json" })
+        .times(1)
+        .then
+        .to_return(body: access_token_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        return_json = JSON.generate({
-          :some_key => "some_value"
-        })
+      return_json = JSON.generate({
+        :some_key => "some_value"
+      })
 
-        response_stub = stub_request(:any, @environment.base_url).
-          to_return(body: return_json, status: 200,
-                    headers: { 'content-type' => "application/json" })
+      response_stub = stub_request(:any, @environment.base_url)
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-          req = OpenStruct.new({:verb => "GET", :path => "/"})
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
 
-          resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-          expect(resp.status_code).to eq(200)
-          expect(resp.result[:some_key]).to eq("some_value")
+      expect(resp.status_code).to eq(200)
+      expect(resp.result[:some_key]).to eq("some_value")
 
-          resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-          assert_requested(access_token_stub, times: 2)
-          assert_requested(response_stub, times: 2)
+      assert_requested(access_token_stub, times: 2)
+      assert_requested(response_stub, times: 2)
+    end
+
+    it 'sets Authorization header with access token value' do
+      access_token_stub = stubAccessToken
+
+      return_json = JSON.generate({
+        :some_key => "some_value"
+      })
+
+      stub_request(:get, @environment.base_url + "/path")
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
+
+      req = OpenStruct.new({:verb => "GET", :path => "/path"})
+
+      resp = @httpClient.execute(req)
+
+      expect(resp.status_code).to eq(200)
+      expect(resp.result.some_key).to eq("some_value")
+      assert_requested(access_token_stub)
+
+      expect(WebMock).to have_requested(:get, @environment.base_url + '/path')
+        .with(headers: { 'Authorization' => "Bearer simple-access-token" })
     end
 
     it 'sets User-Agent header properly' do
-      WebMock.enable!
       access_token_stub = stubAccessToken
 
       return_json = JSON.generate({
         :some_key => "some_value"
       })
 
-      request_stub = stub_request(:any, @environment.base_url).
-        to_return(body: return_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      request_stub = stub_request(:any, @environment.base_url)
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        resp = @httpClient.execute(OpenStruct.new({:verb => "GET", :path => "/"}))
+      resp = @httpClient.execute(OpenStruct.new({:verb => "GET", :path => "/"}))
 
-        user_agent_regex = /^PayPalSDK\/rest-sdk-ruby #{VERSION} \(paypal-sdk-core .*; ruby [\d\.?]*p\d+-.*;OpenSSL.*\)$/
-        expect(WebMock).to have_requested(:get, @environment.base_url).
-          with(headers: {'User-Agent' => user_agent_regex})
+      user_agent_regex = /^PayPalSDK\/rest-sdk-ruby #{VERSION} \(paypal-sdk-core .*; ruby [\d\.?]*p\d+-.*;OpenSSL.*\)$/
+      expect(WebMock).to have_requested(:get, @environment.base_url)
+        .with(headers: {'User-Agent' => user_agent_regex})
     end
 
     it 'sets Accept-Encoding header to gzip' do
-      WebMock.enable!
       access_token_stub = stubAccessToken
 
       return_json = JSON.generate({
         :some_key => "some_value"
       })
 
-      request_stub = stub_request(:any, @environment.base_url).
-        to_return(body: return_json, status: 200,
-                  headers: { 'content-type' => "application/json" })
+      request_stub = stub_request(:any, @environment.base_url)
+        .to_return(body: return_json, status: 200, headers: { 'content-type' => "application/json" })
 
-        req = OpenStruct.new({:verb => "GET", :path => "/"})
+      req = OpenStruct.new({:verb => "GET", :path => "/"})
 
-        resp = @httpClient.execute(req)
+      resp = @httpClient.execute(req)
 
-        expect(resp.status_code).to eq(200)
-        expect(resp.result[:some_key]).to eq("some_value")
-        expect(WebMock).to have_requested(:get, @environment.base_url).
-          with(headers: {'Accept-Encoding' => 'gzip'})
+      expect(resp.status_code).to eq(200)
+      expect(resp.result[:some_key]).to eq("some_value")
+      expect(WebMock).to have_requested(:get, @environment.base_url)
+        .with(headers: {'Accept-Encoding' => 'gzip'})
     end
   end
 end
