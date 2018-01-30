@@ -8,6 +8,7 @@ module PayPal
       }
 
       if (refreshToken)
+        @body[:grant_type] = "refresh_token"
         @body[:refresh_token] = refreshToken
       end
 
