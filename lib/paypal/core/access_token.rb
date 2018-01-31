@@ -10,7 +10,7 @@ module PayPal
     end
 
     def isExpired
-      return Time.now > @date_created + @expires_in;
+      return Time.now > @date_created + @expires_in
     end
 
     def authorizationString
@@ -18,4 +18,3 @@ module PayPal
     end
   end
 end
-

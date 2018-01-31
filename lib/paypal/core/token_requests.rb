@@ -1,10 +1,11 @@
 module PayPal
   class AccessTokenRequest
     attr_accessor :path, :body, :headers, :verb
-    def initialize(environment, refreshToken=nil)
+
+    def initialize(environment, refreshToken = nil)
       @path = "/v1/oauth2/token"
       @body = {
-        :grant_type => "client_credentials"
+        :grant_type => "client_credentials",
       }
 
       if (refreshToken)
@@ -14,7 +15,7 @@ module PayPal
 
       @headers = {
         "Content-Type" => "application/x-www-form-urlencoded",
-        "Authorization" => environment.authorizationString()
+        "Authorization" => environment.authorizationString(),
       }
       @verb = "POST"
     end
@@ -22,18 +23,18 @@ module PayPal
 
   class RefreshTokenRequest
     attr_accessor :path, :body, :headers, :verb
+
     def initialize(environment, authorization_code)
       @path = "/v1/identity/openidconnect/tokenservice"
       @body = {
         :grant_type => "authorization_code",
-        :code => authorization_code
+        :code => authorization_code,
       }
       @headers = {
         "Content-Type" => "application/x-www-form-urlencoded",
-        "Authorization" => environment.authorizationString()
+        "Authorization" => environment.authorizationString(),
       }
       @verb = "POST"
     end
   end
 end
-
