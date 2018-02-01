@@ -14,7 +14,7 @@ describe InvoiceCancelRequest do
       :subject => 'Past Due',
       :note => 'nevermind',
       :send_to_merchant => true,
-      :send_to_payer => true
+      :send_to_payer => true,
     })
 
     resp = TestHarness::client.execute(request)

@@ -12,18 +12,18 @@ module OrdersHelper
           :amount => {
             :total => '100.00',
             :currency => 'USD',
-          }
+          },
         }, {
           :reference_id => 'test_ref_id2',
           :amount => {
             :total => '50.00',
             :currency => 'USD',
-          }
+          },
         }],
         :redirect_urls => {
           :cancel_url => 'https://example.com/cancel',
-          :return_url => 'https://example.com/return'
-        }
+          :return_url => 'https://example.com/return',
+        },
       }
 
       TestHarness::exec(OrdersCreateRequest.new, body)

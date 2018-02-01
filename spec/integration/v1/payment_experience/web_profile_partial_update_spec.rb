@@ -13,12 +13,12 @@ describe WebProfilePartialUpdateRequest do
       {
         :op => 'add',
         :path => '/presentation/brand_name',
-        :value => 'example supply and company'
+        :value => 'example supply and company',
       },
       {
         :op => 'remove',
-        :path => '/flow_config/landing_page_type'
-      }
+        :path => '/flow_config/landing_page_type',
+      },
     ])
 
     resp = TestHarness::client.execute(request)

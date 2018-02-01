@@ -12,9 +12,9 @@ describe InvoiceUpdateRequest do
     request.notify_merchant(false)
     request.request_body({
       :merchant_info => {
-        :email => 'team-dx-clients-facilitator@getbraintree.com'
+        :email => 'team-dx-clients-facilitator@getbraintree.com',
       },
-      :terms => 'Consider this invoice updated'
+      :terms => 'Consider this invoice updated',
     })
 
     resp = TestHarness::client.execute(request)

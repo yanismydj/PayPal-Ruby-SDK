@@ -21,9 +21,9 @@ describe TemplateUpdateRequest do
             "quantity": 1,
             "unit_price": {
               "currency": "USD",
-              "value": "50.00"
-            }
-          }
+              "value": "50.00",
+            },
+          },
         ],
         "merchant_info": {
           "email": "team-dx-clients-facilitator@getbraintree.com",
@@ -32,22 +32,22 @@ describe TemplateUpdateRequest do
         "tax_inclusive": false,
         "note": "Thank you for your business.",
         "logo_url": "https://pics.paypal.com/v1/images/redDot.jpeg",
-        "allow_tip": true
+        "allow_tip": true,
       },
       "settings": [
         {
           "field_name": "items.date",
           "display_preference": {
-            "hidden": true
-          }
+            "hidden": true,
+          },
         },
         {
           "field_name": "custom",
           "display_preference": {
-            "hidden": true
-          }
-        }
-      ]
+            "hidden": true,
+          },
+        },
+      ],
     }
 
     request.request_body(body)

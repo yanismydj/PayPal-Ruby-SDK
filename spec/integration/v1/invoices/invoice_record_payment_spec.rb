@@ -6,7 +6,6 @@ include PayPal::V1::Invoices
 
 describe InvoiceRecordPaymentRequest do
   it 'successfully makes a request' do
-
     create_response = InvoiceHelper::create_invoice
     record_response = InvoiceHelper::record_payment(create_response.result.id)
 

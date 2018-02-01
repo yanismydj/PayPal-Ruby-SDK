@@ -7,7 +7,7 @@ include PayPal::V1::PaymentExperience
 describe WebProfileCreateRequest do
   it 'successfully makes a request' do
     begin
-    create_response = PaymentExperienceHelper::create_profile
+      create_response = PaymentExperienceHelper::create_profile
     rescue Exception => e
       puts e.status_code
       puts e.result

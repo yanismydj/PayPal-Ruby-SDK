@@ -4,16 +4,15 @@ include PayPal::V1::BillingPlans
 
 module PlanHelper
   class << self
-
     def activate_plan(plan_id)
       request_body = [
         {
           :op => 'replace',
           :path => '/',
           :value => {
-            :state => 'ACTIVE'
-          }
-        }
+            :state => 'ACTIVE',
+          },
+        },
       ]
 
       activate_request = PlanUpdateRequest.new(plan_id)
@@ -27,7 +26,7 @@ module PlanHelper
         "payment_definitions": [{
           "amount": {
             "value": "100",
-            "currency": "USD"
+            "currency": "USD",
           },
           "frequency": "MONTH",
           "cycles": "12",
@@ -38,23 +37,23 @@ module PlanHelper
             "type": "SHIPPING",
             "amount": {
               "value": "10",
-              "currency": "USD"
-            }
+              "currency": "USD",
+            },
           }, {
             "type": "TAX",
             "amount": {
               "value": "12",
-              "currency": "USD"
-            }
-          }]
+              "currency": "USD",
+            },
+          }],
         }],
         "merchant_preferences": {
           "return_url": "http://localhost:3000/subscription/success",
-          "cancel_url": "http://localhost:3000/subscription/cancel"
+          "cancel_url": "http://localhost:3000/subscription/cancel",
         },
         "name": "T-Shirt of the Month Club Plan",
         "description": "Template creation.",
-        "type": "fixed"
+        "type": "fixed",
       }
 
       request = PlanCreateRequest.new()

@@ -9,7 +9,7 @@ describe OrdersPayRequest do
     create_response = OrdersHelper::create_order
     request = OrdersPayRequest.new(create_response.result.id)
     request.request_body({
-      :disbursement_mode => 'INSTANT'
+      :disbursement_mode => 'INSTANT',
     })
 
     resp = TestHarness::client.execute(request)

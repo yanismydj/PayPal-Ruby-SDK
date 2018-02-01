@@ -14,7 +14,7 @@ module TestHarness
       PayPal::PayPalHttpClient.new(self.environment)
     end
 
-    def exec(req, body=nil)
+    def exec(req, body = nil)
       if body
         req.request_body(body)
       end

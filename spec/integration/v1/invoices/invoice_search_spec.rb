@@ -9,7 +9,7 @@ describe InvoiceSearchRequest do
 
     request = InvoiceSearchRequest.new()
     request.request_body({
-      :number => create_response.result.number
+      :number => create_response.result.number,
     })
 
     resp = TestHarness::client.execute(request)

@@ -13,7 +13,7 @@ describe InvoiceRemindRequest do
     request.request_body({
       :subject => 'PAST DUE',
       :note => 'pony up!',
-      :send_to_merchant => true
+      :send_to_merchant => true,
     })
 
     resp = TestHarness::client.execute(request)

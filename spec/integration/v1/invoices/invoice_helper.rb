@@ -13,30 +13,30 @@ module InvoiceHelper
           "business_name": "Medical Professionals, LLC",
           "phone": {
             "country_code": "001",
-            "national_number": "5032141716"
+            "national_number": "5032141716",
           },
           "address": {
             "line1": "1234 Main St.",
             "city": "Portland",
             "state": "OR",
             "postal_code": "97217",
-            "country_code": "US"
-          }
+            "country_code": "US",
+          },
         },
         "billing_info": [{
-          "email": "example@example.com"
+          "email": "example@example.com",
         }],
         "items": [{
           "name": "Sutures",
           "quantity": 100.0,
           "unit_price": {
             "currency": "USD",
-            "value": 5
-          }
+            "value": 5,
+          },
         }],
         "note": "Medical Invoice 16 Jul, 2013 PST",
         "payment_term": {
-          "term_type": "NET_45"
+          "term_type": "NET_45",
         },
         "shipping_info": {
           "first_name": "Sally",
@@ -44,21 +44,21 @@ module InvoiceHelper
           "business_name": "Not applicable",
           "phone": {
             "country_code": "001",
-            "national_number": "5039871234"
+            "national_number": "5039871234",
           },
           "address": {
             "line1": "1234 Broad St.",
             "city": "Portland",
             "state": "OR",
             "postal_code": "97216",
-            "country_code": "US"
-          }
+            "country_code": "US",
+          },
         },
         "tax_inclusive": false,
         "total_amount": {
           "currency": "USD",
-          "value": "500.00"
-        }
+          "value": "500.00",
+        },
       }
 
       TestHarness::exec(InvoiceCreateRequest.new, body)
@@ -84,8 +84,8 @@ module InvoiceHelper
         :date => '2017-07-11 00:01:00 PST',
         :amount => {
           :value => '10',
-          :currency => 'USD'
-        }
+          :currency => 'USD',
+        },
       })
 
       TestHarness::exec(request)
@@ -98,8 +98,8 @@ module InvoiceHelper
       body = {
         :amount => {
           :value => '10',
-          :currency => 'USD'
-        }
+          :currency => 'USD',
+        },
       }
 
       TestHarness::exec(req, body)
@@ -117,9 +117,9 @@ module InvoiceHelper
               "quantity": 1,
               "unit_price": {
                 "currency": "USD",
-                "value": "50.00"
-              }
-            }
+                "value": "50.00",
+              },
+            },
           ],
           "merchant_info": {
             "email": "team-dx-clients-facilitator@getbraintree.com",
@@ -128,22 +128,22 @@ module InvoiceHelper
           "tax_inclusive": false,
           "note": "Thank you for your business.",
           "logo_url": "https://pics.paypal.com/v1/images/redDot.jpeg",
-          "allow_tip": true
+          "allow_tip": true,
         },
         "settings": [
           {
             "field_name": "items.date",
             "display_preference": {
-              "hidden": true
-            }
+              "hidden": true,
+            },
           },
           {
             "field_name": "custom",
             "display_preference": {
-              "hidden": true
-            }
-          }
-        ]
+              "hidden": true,
+            },
+          },
+        ],
       }
 
       TestHarness::exec(TemplateCreateRequest.new, body)
