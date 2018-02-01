@@ -4,14 +4,6 @@ include PayPal::V1::Orders
 
 module OrdersHelper
   class << self
-    def exec(req, body=nil)
-      if body
-        req.request_body(body)
-      end
-
-      TestHarness::client.execute(req)
-    end
-
     def create_order
       body = {
         :intent => 'SALE',
@@ -34,11 +26,11 @@ module OrdersHelper
         }
       }
 
-      exec(OrdersCreateRequest.new, body)
+      TestHarness::exec(OrdersCreateRequest.new, body)
     end
 
     def get_order(id)
-      exec(OrdersGetRequest.new(id))
+      TestHarness::exec(OrdersGetRequest.new(id))
     end
   end
 end

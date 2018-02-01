@@ -4,16 +4,6 @@ include PayPal::V1::Invoices
 
 module InvoiceHelper
   class << self
-
-    def exec(req, body = nil)
-      if body
-        req.request_body(body)
-      end
-
-
-      resp = TestHarness::client.execute(req)
-    end
-
     def create_invoice
       body = {
         "merchant_info": {
@@ -71,18 +61,18 @@ module InvoiceHelper
         }
       }
 
-      exec(InvoiceCreateRequest.new, body)
+      TestHarness::exec(InvoiceCreateRequest.new, body)
     end
 
     def get_invoice(id)
-      exec(InvoiceGetRequest.new(id))
+      TestHarness::exec(InvoiceGetRequest.new(id))
     end
 
     def send_invoice(id)
       req = InvoiceSendRequest.new(id)
       req.notify_merchant(true)
 
-      exec(req)
+      TestHarness::exec(req)
     end
 
     def record_payment(id)
@@ -98,7 +88,7 @@ module InvoiceHelper
         }
       })
 
-      exec(request)
+      TestHarness::exec(request)
     end
 
     def record_refund(id)
@@ -112,7 +102,7 @@ module InvoiceHelper
         }
       }
 
-      exec(req, body)
+      TestHarness::exec(req, body)
     end
 
     def create_template
@@ -156,21 +146,21 @@ module InvoiceHelper
         ]
       }
 
-      exec(TemplateCreateRequest.new, body)
+      TestHarness::exec(TemplateCreateRequest.new, body)
     end
 
     def get_template(id)
-      exec(TemplateGetRequest.new(id))
+      TestHarness::exec(TemplateGetRequest.new(id))
     end
 
     def delete_templates
-      list_resp = exec(TemplateListRequest.new)
+      list_resp = TestHarness::exec(TemplateListRequest.new)
 
       puts "Deleting #{list_resp.result.templates.count} templates"
 
       list_resp.result.templates.each do |template|
         begin
-          exec(TemplateDeleteRequest.new(template.template_id))
+          TestHarness::exec(TemplateDeleteRequest.new(template.template_id))
           puts "deleted #{template.template_id}"
         rescue Exception => e
           puts "Could not delete #{template.template_id}"
