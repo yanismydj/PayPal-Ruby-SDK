@@ -41,7 +41,7 @@ module PayPal
 
     def _is_auth_request(request)
       request.path == '/v1/oauth2/token' ||
-        request.path == 'v1/identity/openid/connect'
+        request.path == '/v1/identity/openidconnect/tokenservice'
     end
   end
 end
