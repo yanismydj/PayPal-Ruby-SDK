@@ -75,8 +75,6 @@ request.request_body({
       :currency =>  "USD" },
     :description =>  "This is the payment transaction description." }]})
 
-request = PaymentCreateRequest.new
-
 begin
   payment_create_response = client.execute(request)
 rescue IOError => e
