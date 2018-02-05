@@ -78,12 +78,12 @@ request.request_body({
 request = PaymentCreateRequest.new
 
 begin
-	payment_create_response = client.execute(request)
+  payment_create_response = client.execute(request)
 rescue IOError => e
-	if e.is_instance? BraintreeHttp::HttpError
-		puts e.result
-		puts e.status_code
-	end
+  if e.is_instance? BraintreeHttp::HttpError
+    puts e.result
+    puts e.status_code
+  end
 end
 ```
 

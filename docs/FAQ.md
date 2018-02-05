@@ -41,7 +41,7 @@ request.request_body({ ... })
 
 while !response && tries < 3
   begin
-		response = client.execute(request)
+    response = client.execute(request)
   rescue IOError => e
     if e.instance_of? BraintreeHttp::HttpError
       status_code = e.status_code
