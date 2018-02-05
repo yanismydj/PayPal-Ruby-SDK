@@ -33,14 +33,15 @@ environment = PayPal::SandboxEnvironment.new('client_id', 'client_secret')
 client = PayPal::PayPalHttpClient.new(environment)
 
 tries = 0
-result = nil
+response = nil
 
 request = PaymentCreateRequest.new
 request.headers['PayPal-Request-ID'] = 'abcd-request-id'
 request.request_body({ ... })
 
-while !result && tries < 3
+while !response && tries < 3
   begin
+		response = client.execute(request)
   rescue IOError => e
     if e.instance_of? BraintreeHttp::HttpError
       status_code = e.status_code
