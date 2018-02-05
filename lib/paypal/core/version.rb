@@ -1,1 +1,3 @@
-VERSION = "2.0.0-beta1"
+module PayPal
+  VERSION = "2.0.0.b0"
+end
