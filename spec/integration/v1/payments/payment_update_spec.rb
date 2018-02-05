@@ -1,24 +1,28 @@
-
-
 require_relative '../../test_harness'
-require_relative '../../../lib/lib'
-require 'json'
+require_relative './payments_helper'
 
 include PayPal::V1::Payments
 
 describe PaymentUpdateRequest do
-  def build_request_body
-    return JSON.parse('{"from":"5wNCWeR y9AhSr1FfZ","op":"5WpVhtz2b uHbDd2Q","path":"4f8yGH3cU6f","value":{}}')
-  end
-
   it 'successfully makes a request' do
-    request = PaymentUpdateRequest.new("LB2 fSiWs8s7x")
-    request.request_body(build_request_body)
+    create_response = PaymentsHelper::create_payment('sale', payment_method='paypal')
+
+    request = PaymentUpdateRequest.new(create_response.result.id)
+    request.request_body([{
+      :path => '/transactions/0/amount',
+      :op => 'replace',
+      :value => {
+        :currency => 'USD',
+        :total => '11'
+      }
+    }])
 
     resp = TestHarness::client.execute(request)
     expect(resp.status_code).to eq(200)
     expect(resp.result).not_to be_nil
 
-    # Add your own checks here
+    get_response = TestHarness::exec(PaymentGetRequest.new(create_response.result.id))
+
+    expect(get_response.result.transactions[0].amount.total).to eq('11.00')
   end
 end

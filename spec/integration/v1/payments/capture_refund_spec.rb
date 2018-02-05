@@ -1,24 +1,27 @@
-
-
 require_relative '../../test_harness'
-require_relative '../../../lib/lib'
-require 'json'
+require_relative './payments_helper'
 
 include PayPal::V1::Payments
 
 describe CaptureRefundRequest do
-  def build_request_body
-    return JSON.parse('{"invoice_number":"F3RH9iIwe8  z2h92u","reason":"qvuUZSJfJ6X","amount":{"details":{"shipping":"qW8QiruyKEpK3KQEqt","shipping_discount":"EAy1TFvx7zzhGiAQRe","subtotal":"cs9cONZuHwGHr","tax":"HY6efAC8NLG2","gift_wrap":"z2QX29fDx2TdMT2CW","handling_fee":"DwY3geZXeGOJ46NGXIx","insurance":"ZdWRyTPgG2 7XvA3"},"total":"DHg5q9pSIEGZ4PJ9","currency":"WaefXvYwwEbSbOarU"},"description":"Za7TE93IPD3QEiYvN0P"}')
-  end
-
   it 'successfully makes a request' do
-    request = CaptureRefundRequest.new("A0yHSrYhuO8q")
-    request.request_body(build_request_body)
+    create_response = PaymentsHelper::create_payment('authorize')
+    auth_id = create_response.result.transactions[0].related_resources[0].authorization.id
+
+    auth_capture_response = PaymentsHelper::create_auth_capture(auth_id)
+
+    request = CaptureRefundRequest.new(auth_capture_response.result.id)
+    request.request_body({
+      :amount => {
+        :total => '10',
+        :currency => 'USD'
+      }
+    })
 
     resp = TestHarness::client.execute(request)
-    expect(resp.status_code).to eq(200)
-    expect(resp.result).not_to be_nil
 
-    # Add your own checks here
+    expect(resp.status_code).to eq(201)
+    expect(resp.result).not_to be_nil
+    expect(resp.result.capture_id).to eq(auth_capture_response.result.id)
   end
 end
