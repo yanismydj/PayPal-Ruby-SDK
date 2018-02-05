@@ -19,5 +19,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency('braintreehttp', '~> 1.0')
+  gem.add_dependency('braintreehttp', '~> 0.4.4')
 end
