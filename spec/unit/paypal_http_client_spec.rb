@@ -236,7 +236,7 @@ describe PayPal::PayPalHttpClient do
 
       resp = @httpClient.execute(OpenStruct.new({:verb => "GET", :path => "/"}))
 
-      user_agent_regex = /^PayPalSDK\/rest-sdk-ruby #{VERSION} \(paypal-sdk-core .*; ruby [\d\.?]*p\d+-.*;OpenSSL.*\)$/
+      user_agent_regex = /^PayPalSDK\/rest-sdk-ruby #{PayPal::VERSION} \(paypal-sdk-core .*; ruby [\d\.?]*p\d+-.*;OpenSSL.*\)$/
       expect(WebMock).to have_requested(:get, @environment.base_url)
                            .with(headers: {'User-Agent' => user_agent_regex})
     end
