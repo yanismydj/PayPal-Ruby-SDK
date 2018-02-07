@@ -55,7 +55,8 @@ Please feel free to create an issue in this repo with any feedback, questions, o
 
 To run integration tests using your client id and secret, clone this repository and run the following command:
 ```sh
-bundle install
+$ bundle install
+$ rspec spec/integration
 ```
 
 *NOTE*: This API is still in beta, is subject to change, and should not be used in production.
