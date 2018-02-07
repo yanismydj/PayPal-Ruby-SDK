@@ -1,16 +1,23 @@
-$:.push File.expand_path("../lib", __FILE__)
+# -*- encoding: utf-8 -*-
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'paypal/core/version'
 
-Gem::Specification.new do |s|
-  s.name = "paypal-sdk-rest"
-  s.summary = "PayPal Client Library"
-  s.description = "Used for API clients"
-  s.version = "1.0.0"
-  s.license = "MIT"
-  s.author = "PayPal"
-  s.email = "code@getbraintree.com"
-  s.homepage = "http://www.paypal.com/"
-  s.rubyforge_project = "paypal-sdk-rest"
-  s.has_rdoc = false
-  s.files = Dir.glob ["lib/**/*.{rb,crt}", "spec/**/*", "*.gemspec"]
-  s.add_dependency "builder", ">= 2.0.0"
+Gem::Specification.new do |gem|
+  gem.name          = "paypal-sdk-rest"
+  gem.version       = PayPal::VERSION
+  gem.authors       = ["PayPal"]
+  gem.email         = ["DL-PP-RUBY-SDK@paypal.com"]
+  gem.summary       = %q{The PayPal REST SDK provides Ruby APIs to create, process and manage payment.}
+  gem.description   = %q{The PayPal REST SDK provides Ruby APIs to create, process and manage payment.}
+  gem.homepage      = "https://developer.paypal.com"
+
+  gem.license       = "PayPal SDK License"
+
+  gem.files         = Dir["{bin,spec,lib}/**/*"] + ["README.md", "Gemfile"] + Dir["data/*"]
+  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.require_paths = ["lib"]
+
+  gem.add_dependency('braintreehttp', '~> 0.4.4')
 end

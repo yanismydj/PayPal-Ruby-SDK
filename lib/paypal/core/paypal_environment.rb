@@ -3,39 +3,36 @@ require "base64"
 
 module PayPal
 
-  SANDBOX = 'https://api.sandbox.paypal.com';
-  LIVE = 'https://api.paypal.com';
+  SANDBOXAPI = 'https://api.sandbox.paypal.com'
+  LIVEAPI = 'https://api.paypal.com'
+  SANDBOXWEB = 'https://sandbox.paypal.com'
+  LIVEWEB = 'https://paypal.com'
 
   class PayPalEnvironment < BraintreeHttp::Environment
+    attr_accessor :client_id, :client_secret, :web_url
 
-    attr_accessor :client_id, :client_secret
-
-    def initialize(client_id, client_secret, base_url)
+    def initialize(client_id, client_secret, base_url, web_url)
       super(base_url)
       @client_id = client_id
       @client_secret = client_secret
+      @web_url = web_url
     end
 
-    def authorizationString()
+    def authorizationString
       encoded = Base64.strict_encode64("#{@client_id}:#{@client_secret}")
       return "Basic #{encoded}"
     end
-
   end
 
   class SandboxEnvironment < PayPal::PayPalEnvironment
-
     def initialize(client_id, client_secret)
-      super(client_id, client_secret, PayPal::SANDBOX)
+      super(client_id, client_secret, PayPal::SANDBOXAPI, PayPal::SANDBOXWEB)
     end
-
   end
 
   class LiveEnvironment < PayPal::PayPalEnvironment
-
     def initialize(client_id, client_secret)
-      super(client_id, client_secret, PayPal::LIVE)
+      super(client_id, client_secret, PayPal::LIVEAPI, PayPal::LIVEWEB)
     end
   end
 end
-

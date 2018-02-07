@@ -3,10 +3,9 @@ require_relative './version'
 
 module PayPal
   class PayPalHttpClient < BraintreeHttp::HttpClient
-
     attr_accessor :refresh_token
 
-    def initialize(environment, refresh_token=nil)
+    def initialize(environment, refresh_token = nil)
       super(environment)
       @refresh_token = refresh_token
 
@@ -41,8 +40,8 @@ module PayPal
     end
 
     def _is_auth_request(request)
-      request.instance_of?(PayPal::AccessTokenRequest) ||
-        request.instance_of?(PayPal::RefreshTokenRequest)
+      request.path == '/v1/oauth2/token' ||
+        request.path == '/v1/identity/openidconnect/tokenservice'
     end
   end
 end
