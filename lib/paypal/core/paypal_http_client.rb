@@ -25,7 +25,7 @@ module PayPal
     end
 
     def _sign_request(request)
-      if (!_is_auth_request(request))
+      if (!_has_auth_header(request) && !_is_auth_request(request))
         if (!@access_token || @access_token.isExpired)
           accessTokenRequest = PayPal::AccessTokenRequest.new(@environment, @refresh_token)
           tokenResponse = execute(accessTokenRequest)
@@ -42,6 +42,10 @@ module PayPal
     def _is_auth_request(request)
       request.path == '/v1/oauth2/token' ||
         request.path == '/v1/identity/openidconnect/tokenservice'
+    end
+
+    def _has_auth_header(request)
+      request.headers.key?("Authorization")
     end
   end
 end

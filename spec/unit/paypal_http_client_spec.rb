@@ -181,6 +181,27 @@ describe PayPal::PayPalHttpClient do
       assert_requested(response_stub, times: 2)
     end
 
+    it 'does not fetch access token if authorization header already present' do
+      @httpClient = PayPal::PayPalHttpClient.new(@environment)
+
+      return_json = JSON.generate({
+        :some_key => "some_value",
+      })
+
+      stub_request(:get, @environment.base_url + "/path")
+        .to_return(body: return_json, status: 200, headers: {'content-type' => "application/json"})
+
+      req = OpenStruct.new({:verb => "GET", :path => "/path", :headers => {'Authorization' => 'custom-header-value'}})
+
+      resp = @httpClient.execute(req)
+
+      expect(resp.status_code).to eq(200)
+      expect(resp.result[:some_key]).to eq("some_value")
+
+      expect(WebMock).to have_requested(:get, @environment.base_url + '/path')
+                           .with(headers: {'Authorization' => "custom-header-value"})
+    end
+
     it 'sets Authorization header with access token value' do
       access_token_stub = stubAccessToken
 
