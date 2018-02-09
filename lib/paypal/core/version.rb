@@ -1,3 +1,3 @@
 module PayPal
-  VERSION = "2.0.0.b0"
+  VERSION = "2.0.0.rc1"
 end
