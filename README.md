@@ -17,7 +17,7 @@ payment = {
   :transactions => [
     :amount => {
       :currency => "USD",
-      :amount => "10"
+      :total => "10"
     }
   ],
   :redirect_urls => {
@@ -25,7 +25,7 @@ payment = {
     :return_url => "http://example.com/return"
   },
   :payer => {
-    :payment_method" => "paypal"
+    :payment_method => "paypal"
   }
 }
 

@@ -1,4 +1,5 @@
 require "braintreehttp"
+require 'openssl'
 require_relative './version'
 
 module PayPal
