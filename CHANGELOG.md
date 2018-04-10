@@ -1,6 +1,12 @@
 PayPal Ruby SDK release notes
 =============================
 
+v2.0.0.rc2
+------
+  * Fix issue with loading [#338](https://github.com/paypal/PayPal-Ruby-SDK/issues/338).
+  * Update to latest Payments code.
+  * Support for Customer Disputes in Limited Release (API subject to change).
+
 v2.0.0.rc1
 ------
   * Refactor API around request/response model.

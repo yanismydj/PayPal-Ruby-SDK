@@ -2,6 +2,12 @@
 
 This is a preview of how PayPal SDKs will look in the next major version. We've simplified the interface to only provide HTTPRequest that can easily be called via our HttpClient.
 
+## What's New
+
+Please see the [CHANGELOG.md](./CHANGELOG.md) for the latest changes.
+
+## Example
+
 ### Creating a Payment
 
 ```ruby
@@ -47,7 +53,7 @@ If you're migrating from v1, check out our [Migration Guide](./docs/Migrating.md
 
 ## Building
 
-To try this out, update the version of `paypalrestsdk` in your `Gemfile` to `2.0.0.rc1`.
+To try this out, update the version of `paypalrestsdk` in your `Gemfile` to `2.0.0.rc2`.
 
 Please feel free to create an issue in this repo with any feedback, questions, or concerns you have.
 
