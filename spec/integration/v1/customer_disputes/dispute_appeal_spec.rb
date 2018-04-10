@@ -4,9 +4,11 @@ require 'braintreehttp'
 include PayPal::V1::CustomerDisputes
 
 describe DisputeAppealRequest do
+
+  # Need to have a Dispute in the right state to execute test
   xit 'successfully makes a request' do
     request = DisputeAppealRequest.new("PP-000-042-635-183")
-    file = File.new("./spec/integration/v1/customer_disputes/evidence.pdf")
+    file = File.new("./spec/integration/v1/customer_disputes/test_image.png")
     puts file.size
     body = {
       input: BraintreeHttp::FormPart.new({

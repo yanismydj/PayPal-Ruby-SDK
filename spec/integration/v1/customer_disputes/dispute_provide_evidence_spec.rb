@@ -4,9 +4,10 @@ include PayPal::V1::CustomerDisputes
 
 describe DisputeProvideEvidenceRequest do
 
+  # Need to have a Dispute in the right state to execute test
   xit 'successfully makes a request' do
     request = DisputeProvideEvidenceRequest.new("PP-000-042-636-207")
-    file = File.new("./spec/integration/v1/customer_disputes/evidence.pdf")
+    file = File.new("./spec/integration/v1/customer_disputes/test_image.png")
     puts file.size
     body = {
       input: BraintreeHttp::FormPart.new({

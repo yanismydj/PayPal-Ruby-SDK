@@ -3,6 +3,8 @@ require_relative '../../test_harness'
 include PayPal::V1::CustomerDisputes
 
 describe DisputeAcceptClaimRequest do
+
+  # Need to have a Dispute in the right state to execute test
   xit 'successfully makes a request' do
     request = DisputeAcceptClaimRequest.new("PP-000-042-635-209")
     body = {

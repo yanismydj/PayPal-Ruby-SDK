@@ -4,6 +4,7 @@ include PayPal::V1::CustomerDisputes
 
 describe DisputeGetRequest do
 
+  # Need to have a test sandbox account with current disputes
   xit 'successfully makes a request' do
     request = DisputeGetRequest.new("PP-000-042-636-306")
 
