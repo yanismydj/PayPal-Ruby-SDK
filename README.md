@@ -1,4 +1,4 @@
-# PayPal SDK 2.0.0-beta [![Build Status](https://travis-ci.org/paypal/PayPal-ruby-SDK.svg?branch=2.0-beta)](https://travis-ci.org/paypal/PayPal-ruby-SDK)
+# PayPal SDK 2.0-beta [![Build Status](https://travis-ci.org/paypal/PayPal-Ruby-SDK.svg?branch=2.0-beta)](https://travis-ci.org/paypal/PayPal-Ruby-SDK)
 
 This is a preview of how PayPal SDKs will look in the next major version. We've simplified the interface to only provide HTTPRequest that can easily be called via our HttpClient.
 
