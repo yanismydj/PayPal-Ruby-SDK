@@ -2,6 +2,12 @@
 
 This is a preview of how PayPal SDKs will look in the next major version. We've simplified the interface to only provide HTTPRequest that can easily be called via our HttpClient.
 
+## What's New
+
+Please see the [CHANGELOG.md](./CHANGELOG.md) for the latest changes.
+
+## Example
+
 ### Creating a Payment
 
 ```ruby
