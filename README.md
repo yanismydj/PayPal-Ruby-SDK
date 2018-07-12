@@ -53,7 +53,7 @@ If you're migrating from v1, check out our [Migration Guide](./docs/Migrating.md
 
 ## Building
 
-To try this out, update the version of `paypal-rest-sdk` in your `Gemfile` to `2.0.0.rc2`.
+To try this out, update the version of `paypal-sdk-rest` in your `Gemfile` to `2.0.0.rc2`.
 
 Please feel free to create an issue in this repo with any feedback, questions, or concerns you have.
 
